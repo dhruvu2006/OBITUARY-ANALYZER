@@ -564,6 +564,28 @@ elif st.session_state.step == 'dashboard':
     m5.metric("👴 Oldest", f"{stats['oldest']} Yrs")
     st.divider()
 
+    # ── Grand Winner Announcement ──
+    try:
+        percentage = round((stats['most_common_group_count'] / stats['total_people']) * 100, 1) if stats['total_people'] > 0 else 0
+    except Exception:
+        percentage = 0
+
+    winner_html = f"""
+    <div class="winner-container" style="width: 100%; margin: 40px 0; padding: 60px 20px;">
+        <div class="popper-left" style="font-size: 6rem;">🎉</div>
+        <div class="trophy-icon" style="font-size: 8rem; margin-bottom: 20px;">🏆</div>
+        <div class="winner-title" style="font-size: 1.5rem; color: #d97706; letter-spacing: 4px;">👑 CHAMPIONS OF THE AFTERLIFE 👑</div>
+        <div class="winner-title" style="font-size: 1.2rem; color: #475569; margin-top: 10px;">The Primary Demographic Group Is...</div>
+        <div class="winner-text" style="font-size: 7rem; margin: 20px 0; letter-spacing: -2px;">{stats['most_common_group']}</div>
+        <div class="winner-sub" style="font-size: 1.8rem; color: #000; font-weight: 800;">{stats['most_common_group_count']} individuals recorded</div>
+        <div class="winner-sub" style="font-size: 1.4rem; color: #dc2626; margin-top: 10px;">(That's {percentage}% of all entries!)</div>
+        <div class="winner-sub" style="font-size: 1.2rem; color: #64748b; margin-top: 20px; font-style: italic;">✨ Statistically significant and completely unnecessary ✨</div>
+        <div class="popper-right" style="font-size: 6rem;">🎉</div>
+    </div>
+    """
+    st.markdown(winner_html, unsafe_allow_html=True)
+    st.divider()
+
     # ── Age group chart + page breakdown ──
     col_chart, col_page = st.columns([3, 2], gap="large")
 
@@ -593,18 +615,7 @@ elif st.session_state.step == 'dashboard':
         )
         st.plotly_chart(fig, use_container_width=True)
 
-        # Winner Age Group Display
-        winner_html = f"""
-        <div class="winner-container">
-            <div class="popper-left">🎉</div>
-            <div class="trophy-icon">🏆</div>
-            <div class="winner-title">Primary Demographic Group</div>
-            <div class="winner-text">{stats['most_common_group']}</div>
-            <div class="winner-sub">({stats['most_common_group_count']} individuals recorded)</div>
-            <div class="popper-right">🎉</div>
-        </div>
-        """
-        st.markdown(winner_html, unsafe_allow_html=True)
+
 
     with col_page:
         st.markdown('<div class="section-title">📄 Page-wise Entry Count</div>', unsafe_allow_html=True)
