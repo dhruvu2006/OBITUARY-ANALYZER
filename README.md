@@ -2,47 +2,54 @@
 
 
 
-# [Project Name] 🎯
+# [THE TOMBSTONE TOURNAMENT] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [HACK-A-THON]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [DHRUV] - [COLLEGE OF ENGINEERING]
+- Member 2: [CHARUTHA] - [COLLEGE OF ENGINEERING KARUNAGAPALLY]
 
 ### Project Description
-[2-3 lines about what your project does]
+[AN OBITUARY ANALYZER THAT ANALYZES OBITUARY COLUMN IN A PAPER AND ARRANGES THE NAME OF PEOPLE IN ALPHABTICALLY AND ANALYZES WHICH AGE GROUP PEOPLE HAVE BEEN REPORTED DEAD THAT DAY]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[NOBODY NEEDS OBITUARY  STATIISTICS]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[WE SCAN AN ENTIRE NEWSPAPER,FIND EVERY DEATH NOTICE,SORT THE NAMES,AND TURN THEM INTO COMPLETELY USELESS BUT ODDLY FASCINATING DATA]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [Python — Core development, OCR processing, data extraction and analysis
+   HTML/CSS — UI styling/customization where needed]
+- [Streamlit — Web application and interactive dashboard]
+- [PyMuPDF (fitz) — Reading and processing newspaper PDFs
+Tesseract OCR / pytesseract — Extracting text from newspaper images
+Pillow (PIL) — Image processing and preprocessing
+Pandas — Data cleaning, sorting and analysis
+NumPy — Numerical/statistical operations
+Plotly — Interactive charts and visualizations]
+- [Antigravity — AI-assisted development
+Git — Version control
+GitHub — Code hosting and collaboration
+VS Code / Antigravity Editor — Code development
+Tesseract OCR Engine — OCR execution]
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+[```bash
+pip install streamlit pymupdf pytesseract pillow pandas numpy plotly]
 
 # Run
-[commands]
+[pip install -r requirements.txt
+streamlit run app.py]
 
 ### Project Documentation
 For Software:
