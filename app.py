@@ -182,6 +182,18 @@ st.markdown("""
     0% { transform: translateY(-50%) scale(1) rotate(0deg); }
     100% { transform: translateY(-50%) scale(1.3) rotate(15deg); }
   }
+
+  /* Style native Streamlit bordered containers as glass cards */
+  [data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,0.7) !important;
+    border-radius: 16px !important;
+    border: 2px solid rgba(255,255,255,0.8) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+  [data-testid="stVerticalBlockBorderWrapper"]:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15) !important;
+  }
 </style>
 """, unsafe_allow_html=True)
 
@@ -261,51 +273,49 @@ if st.session_state.step == 'upload':
     col_upload, col_demo = st.columns([1, 1], gap="large")
 
     with col_upload:
-        st.markdown("<div style='background: rgba(255,255,255,0.7); padding: 24px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.8); height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Document Upload 📄</h3>", unsafe_allow_html=True)
-        st.info("Upload a PDF document. The system will automatically classify and extract relevant data sections. 🧛", icon="🦇")
+        with st.container(border=True):
+            st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Document Upload 📄</h3>", unsafe_allow_html=True)
+            st.info("Upload a PDF document. The system will automatically classify and extract relevant data sections. 🧛", icon="🦇")
 
-        uploaded = st.file_uploader(
-            "Drop your newspaper PDF here", type=["pdf"], label_visibility="collapsed"
-        )
+            uploaded = st.file_uploader(
+                "Drop your newspaper PDF here", type=["pdf"], label_visibility="collapsed"
+            )
 
-        if uploaded:
-            pdf_bytes = uploaded.read()
-            total_pages, err = get_page_count(pdf_bytes)
-            if err:
-                st.error(err)
-            elif total_pages == 0:
-                st.error("⚠️ The uploaded document appears to be empty or unreadable.")
-            else:
-                st.success(f"✓ Document verified — {total_pages} pages detected.")
-                st.info(f"System ready for full document analysis.")
+            if uploaded:
+                pdf_bytes = uploaded.read()
+                total_pages, err = get_page_count(pdf_bytes)
+                if err:
+                    st.error(err)
+                elif total_pages == 0:
+                    st.error("⚠️ The uploaded document appears to be empty or unreadable.")
+                else:
+                    st.success(f"✓ Document verified — {total_pages} pages detected.")
+                    st.info(f"System ready for full document analysis.")
 
-                if st.button("Initialize Processing Pipeline", type="primary", use_container_width=True):
-                    st.session_state.pdf_bytes = pdf_bytes
-                    st.session_state.total_pages = total_pages
-                    st.session_state.is_demo = False
-                    st.session_state.step = 'scanning'
-                    st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
+                    if st.button("Initialize Processing Pipeline", type="primary", use_container_width=True):
+                        st.session_state.pdf_bytes = pdf_bytes
+                        st.session_state.total_pages = total_pages
+                        st.session_state.is_demo = False
+                        st.session_state.step = 'scanning'
+                        st.rerun()
 
     with col_demo:
-        st.markdown("<div style='background: rgba(255,255,255,0.7); padding: 24px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.8); height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);'>", unsafe_allow_html=True)
-        st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Demo Environment ⚡</h3>", unsafe_allow_html=True)
-        st.info("Evaluate system capabilities instantly using our pre-processed sample dataset. Skip the queue! ⚰️", icon="🔮")
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("Launch Interactive Demo", type="secondary", use_container_width=True):
-            st.session_state.is_demo = True
-            st.session_state.total_pages = DEMO_TOTAL_PAGES
-            st.session_state.page_scores = [
-                {"page": p["page"], "score": p["score"], "label": p["label"],
-                 "keyword_hits": 12, "age_patterns": p["entries"], "name_patterns": p["entries"]}
-                for p in DEMO_DETECTED_PAGES
-            ]
-            st.session_state.selected_pages = [p["page"] for p in DEMO_DETECTED_PAGES]
-            st.session_state.raw_entries = get_demo_data().to_dict(orient='records')
-            st.session_state.step = 'review'
-            st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Demo Environment ⚡</h3>", unsafe_allow_html=True)
+            st.info("Evaluate system capabilities instantly using our pre-processed sample dataset. Skip the queue! ⚰️", icon="🔮")
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("Launch Interactive Demo", type="secondary", use_container_width=True):
+                st.session_state.is_demo = True
+                st.session_state.total_pages = DEMO_TOTAL_PAGES
+                st.session_state.page_scores = [
+                    {"page": p["page"], "score": p["score"], "label": p["label"],
+                     "keyword_hits": 12, "age_patterns": p["entries"], "name_patterns": p["entries"]}
+                    for p in DEMO_DETECTED_PAGES
+                ]
+                st.session_state.selected_pages = [p["page"] for p in DEMO_DETECTED_PAGES]
+                st.session_state.raw_entries = get_demo_data().to_dict(orient='records')
+                st.session_state.step = 'review'
+                st.rerun()
 
 # ─────────────────────────────────────────────
 #  STEP 2 — SCANNING ALL PAGES
