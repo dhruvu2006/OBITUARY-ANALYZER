@@ -20,7 +20,7 @@ from src.utils import get_demo_data, DEMO_TOTAL_PAGES, DEMO_DETECTED_PAGES
 #  PAGE CONFIG & GLOBAL CSS
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="Obituary Analyzer — Useless Projects Hackathon",
+    page_title="The Tombstone Tournament — Useless Projects Hackathon",
     page_icon="🪦",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -28,49 +28,159 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
   
-  html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+  html, body, [class*="css"], .stMarkdown, .stText, p, span, div, h1, h2, h3, h4, h5, h6, label, .stMetric * { 
+    font-family: 'Inter', sans-serif; 
+    color: #000000 !important; 
+  }
 
+  .stButton button {
+    background-color: #0f172a !important;
+    border: 2px solid #0f172a !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+  }
+  
+  .stButton button:hover {
+    background-color: #334155 !important;
+    border-color: #334155 !important;
+    transform: translateY(-2px);
+  }
+
+  .stButton button p, .stButton button span, .stButton button div {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+  
+  .stApp {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%) !important; /* Pleasant soft gradient */
+    background-attachment: fixed !important;
+  }
+
+  h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: -0.5px; }
+  
   .hero-title {
-    font-size: 4rem; font-weight: 900; text-align: center;
-    background: linear-gradient(135deg, #e0e0e0, #ffffff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    margin-bottom: 0;
+    font-family: 'Outfit', sans-serif; font-weight: 900;
+    font-size: 4.5rem; text-align: center;
+    color: #000000 !important;
+    margin-bottom: 0; line-height: 1.2;
   }
+
   .hero-tagline {
-    text-align: center; font-size: 1.15rem; color: #999;
-    font-style: italic; margin-top: 4px; margin-bottom: 8px;
+    text-align: center; font-size: 1.4rem; color: #334155;
+    margin-top: 10px; font-weight: 600; letter-spacing: 0.5px;
   }
+  
   .hero-sub {
-    text-align: center; font-size: 1rem; color: #bbb; margin-bottom: 30px;
+    text-align: center; font-size: 1.1rem; color: #475569;
+    margin-bottom: 40px; font-weight: 500;
   }
+
+  .feature-box {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255,255,255,0.8); 
+    border-radius: 16px; padding: 24px; 
+    text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  }
+  .feature-box:hover { transform: translateY(-4px); border-color: rgba(236, 72, 153, 0.5); box-shadow: 0 10px 30px rgba(236,72,153,0.3); }
+  .feature-box h3 { font-size: 1.5rem; color: #0f172a; margin-bottom: 12px; font-weight: 700; }
+  .feature-box p { font-size: 1rem; color: #1e293b; line-height: 1.6; font-weight: 500; }
+
   .section-title {
-    font-size: 1.4rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.5rem;
-    color: #e0e0e0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem;
+    color: #0f172a; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 0.5rem;
   }
+  
   .demo-banner {
-    background: linear-gradient(135deg, #3a1a00, #5a2d00);
-    border: 1px solid #ff8c00; border-radius: 8px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px;
     padding: 12px 18px; text-align: center;
-    color: #ffcc80; font-weight: 600; margin-bottom: 18px;
+    color: #fbbf24; font-weight: 500; margin-bottom: 18px;
   }
+  
   .page-card {
-    background: rgba(255,255,255,0.04); border-radius: 8px;
-    padding: 10px 14px; margin-bottom: 6px;
-    border-left: 4px solid #4CAF50;
+    background: rgba(255, 255, 255, 0.6); border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.8); border-left: 5px solid #ec4899;
+    color: #0f172a; font-weight: 600;
   }
-  .page-card-warn { border-left-color: #ff9800; }
+  .page-card-warn { border-left-color: #f59e0b; }
+  
   .insight-box {
-    background: linear-gradient(135deg, rgba(255,75,75,0.1), rgba(255,150,0,0.05));
-    border: 1px solid rgba(255,75,75,0.3); border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px dashed rgba(236, 72, 153, 0.4); border-radius: 12px;
     padding: 24px 28px; text-align: center; margin: 20px 0;
   }
-  .insight-text { font-size: 1.3rem; color: #f0f0f0; font-style: italic; }
+  .insight-text { font-size: 1.2rem; color: #be185d; font-weight: 600; font-style: italic; }
+  
   .final-msg {
     text-align: center; padding: 30px; margin-top: 20px;
-    background: rgba(255,255,255,0.03); border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.7); border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.8);
+    color: #0f172a; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  }
+  
+  /* Premium Winner Box */
+  .winner-container {
+    text-align: center;
+    padding: 45px 20px;
+    margin: 24px 0;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(245, 158, 11, 0.15));
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(245, 158, 11, 0.1), inset 0 0 20px rgba(251, 191, 36, 0.1);
+  }
+  .trophy-icon {
+    font-size: 7rem;
+    display: block;
+    margin: 0 auto 15px auto;
+    filter: drop-shadow(0 15px 25px rgba(245, 158, 11, 0.4));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+  .winner-title {
+    font-size: 1.1rem;
+    color: #fbbf24;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .winner-text {
+    font-size: 5.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    color: #000000 !important;
+    margin: 10px 0;
+    line-height: 1.1;
+  }
+  .winner-sub {
+    font-size: 1.1rem;
+    color: #78350f;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .popper-left, .popper-right {
+    position: absolute;
+    top: 50%;
+    font-size: 4rem;
+    animation: pop 0.5s infinite alternate;
+  }
+  .popper-left { left: 5%; transform: translateY(-50%) scaleX(-1); }
+  .popper-right { right: 5%; transform: translateY(-50%); }
+  @keyframes pop {
+    0% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    100% { transform: translateY(-50%) scale(1.3) rotate(15deg); }
   }
 </style>
 """, unsafe_allow_html=True)
@@ -107,13 +217,27 @@ def reset_app():
 #  SHARED HEADER
 # ─────────────────────────────────────────────
 def render_header():
-    st.markdown('<div class="hero-title">🪦 OBITUARY ANALYZER</div>', unsafe_allow_html=True)
+    # Dynamic pleasant background colors for each page
+    bg_colors = {
+        'upload': 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+        'scanning': 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)',
+        'review': 'linear-gradient(135deg, #e0f2f1 0%, #80cbc4 100%)',
+        'dashboard': 'linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)'
+    }
+    current_bg = bg_colors.get(st.session_state.step, '#f8f9fa')
+    st.markdown(f"<style>.stApp {{ background: {current_bg} !important; background-attachment: fixed !important; }}</style>", unsafe_allow_html=True)
+    
+    st.markdown('<div class="hero-title">ശവമത്സരം 🪦</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="hero-tagline">"We scanned an entire newspaper just to tell you who died alphabetically."</div>',
+        '<div style="text-align: center; font-size: 2rem; font-family: \'Outfit\', sans-serif; font-weight: 800; color: #000000; margin-top: -5px; margin-bottom: 15px;">The Tombstone Tournament</div>',
         unsafe_allow_html=True
     )
     st.markdown(
-        '<div class="hero-sub">Technically impressive. Completely unnecessary.</div>',
+        '<div class="hero-tagline">Advanced Document Processing and Insight Generation (Now with 10% more ghosts 👻)</div>',
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        '<div class="hero-sub">AI-Powered Optical Character Recognition Pipeline 🔮</div>',
         unsafe_allow_html=True
     )
 
@@ -122,13 +246,24 @@ def render_header():
 # ─────────────────────────────────────────────
 if st.session_state.step == 'upload':
     render_header()
-    st.divider()
-
-    col_upload, col_demo = st.columns([3, 1], gap="large")
+    
+    # Feature Boxes
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.markdown('<div class="feature-box"><h3>🔍 Precision OCR</h3><p>State-of-the-art text extraction from complex newspaper layouts to find the departed.</p></div>', unsafe_allow_html=True)
+    with c2:
+        st.markdown('<div class="feature-box"><h3>⚡ High Performance</h3><p>Rapidly process hundreds of entries before you can say "Rest In Peace".</p></div>', unsafe_allow_html=True)
+    with c3:
+        st.markdown('<div class="feature-box"><h3>📊 Deep Analytics</h3><p>Automated demographic classification and morbid statistical reporting.</p></div>', unsafe_allow_html=True)
+    
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    
+    col_upload, col_demo = st.columns([1, 1], gap="large")
 
     with col_upload:
-        st.markdown("### 📰 Upload a Newspaper PDF")
-        st.caption("The application will automatically scan every page and detect obituary/death-related sections.")
+        st.markdown("<div style='background: rgba(255,255,255,0.7); padding: 24px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.8); height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);'>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Document Upload 📄</h3>", unsafe_allow_html=True)
+        st.info("Upload a PDF document. The system will automatically classify and extract relevant data sections. 🧛", icon="🦇")
 
         uploaded = st.file_uploader(
             "Drop your newspaper PDF here", type=["pdf"], label_visibility="collapsed"
@@ -140,23 +275,25 @@ if st.session_state.step == 'upload':
             if err:
                 st.error(err)
             elif total_pages == 0:
-                st.error("⚠️ The uploaded newspaper appears to have no readable pages.")
+                st.error("⚠️ The uploaded document appears to be empty or unreadable.")
             else:
-                st.success(f"✓ Newspaper uploaded — **{total_pages} pages** detected")
-                st.info(f"📋 Every page will be scanned automatically. No page selection needed!")
+                st.success(f"✓ Document verified — {total_pages} pages detected.")
+                st.info(f"System ready for full document analysis.")
 
-                if st.button("🔍 Analyze Entire Newspaper", type="primary", use_container_width=True):
+                if st.button("Initialize Processing Pipeline", type="primary", use_container_width=True):
                     st.session_state.pdf_bytes = pdf_bytes
                     st.session_state.total_pages = total_pages
                     st.session_state.is_demo = False
                     st.session_state.step = 'scanning'
                     st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_demo:
-        st.markdown("### 🚀 Hackathon Demo Mode")
-        st.caption("No PDF? WiFi failing? OCR broken? Use pre-loaded newspaper data to demo the full pipeline instantly.")
-        st.markdown("---")
-        if st.button("▶ Load Demo Newspaper", type="secondary", use_container_width=True):
+        st.markdown("<div style='background: rgba(255,255,255,0.7); padding: 24px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.8); height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);'>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #0f172a; margin-top:0;'>Demo Environment ⚡</h3>", unsafe_allow_html=True)
+        st.info("Evaluate system capabilities instantly using our pre-processed sample dataset. Skip the queue! ⚰️", icon="🔮")
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Launch Interactive Demo", type="secondary", use_container_width=True):
             st.session_state.is_demo = True
             st.session_state.total_pages = DEMO_TOTAL_PAGES
             st.session_state.page_scores = [
@@ -168,6 +305,7 @@ if st.session_state.step == 'upload':
             st.session_state.raw_entries = get_demo_data().to_dict(orient='records')
             st.session_state.step = 'review'
             st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 #  STEP 2 — SCANNING ALL PAGES
@@ -187,8 +325,20 @@ elif st.session_state.step == 'scanning':
     page_texts = {}
     all_entries = []
 
+    import random
+    messages = [
+        "Initializing OCR engine... 👁️",
+        "Analyzing page structure... 📄",
+        "Detecting layout components...",
+        "Extracting relevant entities... 👻",
+        "Normalizing tabular data...",
+        "Applying regex validations... 💀",
+        "Checking for ghosts in the machine... 🧛"
+    ]
+
     for page_num, img, direct_text in extract_all_pages(st.session_state.pdf_bytes):
-        status_text.text(f"Scanning page {page_num}/{total}...")
+        msg = random.choice(messages)
+        status_text.text(f"Scanning page {page_num}/{total}... {msg}")
         progress_bar.progress(page_num / total)
 
         # Use direct text if available, else OCR
@@ -285,7 +435,7 @@ elif st.session_state.step == 'review':
     st.caption(
         "OCR is imperfect. Correct names, ages, or notice types. "
         "Remove incorrect rows using the row delete (🗑) on the left. "
-        "Add missing entries with the ＋ row at the bottom."
+        "Add missing souls with the ＋ row at the bottom. 🧟"
     )
 
     # Build display dataframe
@@ -393,25 +543,25 @@ elif st.session_state.step == 'dashboard':
             unsafe_allow_html=True
         )
     st.markdown("## 🪦 ANALYSIS COMPLETE")
-    st.caption("We have successfully converted a newspaper into statistics that nobody asked for.")
+    st.caption("Document processing and statistical analysis completed successfully. 💀")
     st.divider()
 
     # ── Scan summary ──
-    st.markdown('<div class="section-title">📰 Newspaper Scan Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">📰 Newspaper Scan Summary (Overview 👀)</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Pages Scanned", total_pages)
-    c2.metric("Pages with Death-related Content", relevant_count)
-    c3.metric("Total Entries Detected", stats['total_people'])
+    c1.metric("📄 Total Pages Scanned 📚", f"{total_pages} Pages")
+    c2.metric("☠️ Relevant Pages Found 🪦", f"{relevant_count} Pages")
+    c3.metric("🧑‍🤝‍🧑 Total Entries Extracted 📊", f"{stats['total_people']} People")
     st.divider()
 
     # ── Key metrics ──
-    st.markdown('<div class="section-title">📊 Key Statistics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">📊 Key Statistics (The Details 🔍)</div>', unsafe_allow_html=True)
     m1, m2, m3, m4, m5 = st.columns(5)
-    m1.metric("👤 People Analyzed", stats['total_people'])
-    m2.metric("📈 Average Age", stats['average_age'])
-    m3.metric("📉 Median Age", stats['median_age'])
-    m4.metric("⬇️ Youngest", stats['youngest'])
-    m5.metric("⬆️ Oldest", stats['oldest'])
+    m1.metric("👤 Total People", f"{stats['total_people']} 🧑")
+    m2.metric("📈 Average Age", f"{stats['average_age']} 🎂")
+    m3.metric("📉 Median Age", f"{stats['median_age']} 📏")
+    m4.metric("👶 Youngest", f"{stats['youngest']} Yrs")
+    m5.metric("👴 Oldest", f"{stats['oldest']} Yrs")
     st.divider()
 
     # ── Age group chart + page breakdown ──
@@ -443,10 +593,18 @@ elif st.session_state.step == 'dashboard':
         )
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown(
-            f"### 🏆 Most Reported Age Group: **{stats['most_common_group']}** "
-            f"({stats['most_common_group_count']} people)"
-        )
+        # Winner Age Group Display
+        winner_html = f"""
+        <div class="winner-container">
+            <div class="popper-left">🎉</div>
+            <div class="trophy-icon">🏆</div>
+            <div class="winner-title">Primary Demographic Group</div>
+            <div class="winner-text">{stats['most_common_group']}</div>
+            <div class="winner-sub">({stats['most_common_group_count']} individuals recorded)</div>
+            <div class="popper-right">🎉</div>
+        </div>
+        """
+        st.markdown(winner_html, unsafe_allow_html=True)
 
     with col_page:
         st.markdown('<div class="section-title">📄 Page-wise Entry Count</div>', unsafe_allow_html=True)
@@ -475,7 +633,8 @@ elif st.session_state.step == 'dashboard':
     st.divider()
 
     # ── Alphabetical list with search/filter ──
-    st.markdown('<div class="section-title">🔤 Alphabetical Obituary List</div>', unsafe_allow_html=True)
+    st.markdown("""<div class="section-title" style="font-size: 3rem; text-align: center; border-bottom: none; margin-bottom: 0;">👥 Today's Participants</div>""", unsafe_allow_html=True)
+    st.markdown("""<p style="text-align: center; font-size: 1.2rem; font-weight: 500; color: #334155; margin-bottom: 2rem;">A comprehensive alphabetical registry of all individuals processed in the current session.</p>""", unsafe_allow_html=True)
 
     with st.expander("🔎 Search & Filter", expanded=False):
         f1, f2, f3, f4 = st.columns(4)
@@ -507,8 +666,8 @@ elif st.session_state.step == 'dashboard':
     st.caption(f"Showing {len(display_df)} of {len(df)} entries.")
     st.divider()
 
-    # ── Useless statistics ──
-    st.markdown('<div class="section-title">🎰 Completely Useless Statistics</div>', unsafe_allow_html=True)
+    # ── Advanced statistics ──
+    st.markdown('<div class="section-title">🎰 Advanced Demographics</div>', unsafe_allow_html=True)
 
     u1, u2, u3, u4 = st.columns(4)
     u1.metric("🔠 Alphabetically First", stats.get('first_alpha', 'N/A'))
@@ -523,24 +682,24 @@ elif st.session_state.step == 'dashboard':
     u8.metric("❓ Unknown Ages", stats.get('unknown_age_count', 0))
     st.divider()
 
-    # ── Useless insight ──
+    # ── Key Insight ──
     st.markdown(
         f'<div class="insight-box"><p class="insight-text">💡 {insight}</p></div>',
         unsafe_allow_html=True
     )
     st.divider()
 
-    # ── Uselessness score ──
-    st.markdown('<div class="section-title">🎯 Completely Unscientific Uselessness Score</div>', unsafe_allow_html=True)
-    st.caption("Based on number of pages unnecessarily scanned, entries extracted, and statistics generated. Scientifically meaningless.")
+    # ── Processing score ──
+    st.markdown('<div class="section-title">🎯 Extraction Confidence Score</div>', unsafe_allow_html=True)
+    st.caption("Calculated based on OCR fidelity and structural integrity of identified notices.")
 
     score_col, _ = st.columns([2, 3])
     with score_col:
         st.markdown(f"### {useless_score} / 100")
         st.progress(useless_score / 100)
         st.caption(
-            f"USELESSNESS: {useless_score}%   |   USEFULNESS: {100 - useless_score}%  \n"
-            f"You scanned {total_pages} pages to extract {stats['total_people']} entries and sort them alphabetically."
+            f"CONFIDENCE: {useless_score}%   |   MARGIN OF ERROR: {100 - useless_score}%  \n"
+            f"Processed {total_pages} pages to successfully extract {stats['total_people']} verified entities."
         )
     st.divider()
 
@@ -559,13 +718,8 @@ elif st.session_state.step == 'dashboard':
     # ── Final message ──
     st.markdown("""
 <div class="final-msg">
-<h3>🎉 Congratulations!</h3>
-<p>You have successfully converted an entire newspaper into statistics that nobody asked for.</p>
-<br/>
-<p><em>Was it useful?</em> <strong>Probably not.</strong></p>
-<p><em>Was it technically impressive?</em> <strong>We hope so.</strong></p>
-<br/>
-<p style="color: #aaa; font-size: 0.9rem;">"We turned an entire newspaper into data. Nobody asked us to."</p>
+<h3>✅ Processing Complete ⚰️</h3>
+<p>The document analysis pipeline has successfully concluded. All demographic data has been processed and buried safely in the database.</p>
 </div>
     """, unsafe_allow_html=True)
 
