@@ -2,7 +2,7 @@
 
 
 
-# [THE TOMBSTONE TOURNAMENT] 🎯
+# THE TOMBSTONE TOURNAMENT 🎯
 
 
 ## Basic Details
